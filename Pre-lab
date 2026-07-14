@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced HTML Tags Demo</title>
+
+   
+
+<body>
+
+<h1>Advanced HTML Tags Example</h1>
+
+
+<section>
+    <details>
+        <summary>Click to View More</summary>
+        <p>This content is hidden until the user clicks the summary.</p>
+    </details>
+</section>
+
+
+<section>
+    <h3>Battery Level</h3>
+    <meter value="75" min="0" max="100"></meter>
+</section>
+
+
+<section>
+    <h3>Download Progress</h3>
+    <progress value="60" max="100"></progress>
+</section>
+
+
+<section>
+   <figure>
+    <img src="https://scrimba.com/articles/content/images/2022/11/image-1.png" alt="Sample Image" width="300">
+    <figcaption>How HTML,CSS,JS works!!</figcaption>
+</figure>
+</section>
+
+
+<section>
+
+    <button onclick="document.getElementById('myDialog').showModal()">
+        Open Dialog
+    </button>
+
+    <dialog id="myDialog">
+        <h2>Welcome!</h2>
+        <p>This is an HTML Dialog Box.</p>
+
+        <button onclick="document.getElementById('myDialog').close()">
+            Close
+        </button>
+
+    </dialog>
+
+</section>
+
+
+    <section>
+      <label>Select your course:</label>
+
+<input type="text" list="courses" placeholder="Choose a course">
+
+<datalist id="courses">
+    <option value="HTML">
+    <option value="CSS">
+    <option value="JavaScript">
+    <option value="Python">
+    <option value="Java">
+</datalist>
+    </section>
+    
+    <section>
+      <p>
+    Assignment Submission Date:
+    <time datetime="2026-07-20">20 July 2026</time>
+</p>
+    </section>
+
+    <section>
+      <p>
+    HTML is a <mark>markup language</mark> used to create web pages.
+</p>
+    </section>
+
+</body>
+</html>
