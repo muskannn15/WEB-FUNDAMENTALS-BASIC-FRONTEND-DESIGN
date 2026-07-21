@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Professional Student Profile</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#dbeafe,#bfdbfe,#93c5fd);
+    padding:40px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+}
+
+/* Header */
+
+header{
+    background:linear-gradient(to right,#0f172a,#2563eb);
+    color:white;
+    padding:35px;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:30px;
+}
+
+.profile img{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    border:6px solid white;
+    object-fit:cover;
+    box-shadow:0 0 20px rgba(255,255,255,.5);
+}
+
+.profile-info h1{
+    font-size:38px;
+}
+
+.profile-info h3{
+    margin-top:8px;
+    color:#cbd5e1;
+}
+
+.profile-info p{
+    margin-top:10px;
+    font-size:17px;
+}
+
+/* Cards */
+
+.card{
+    background:#ffffff;
+    margin:25px;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h2{
+    color:#2563eb;
+    margin-bottom:18px;
+    border-left:6px solid #2563eb;
+    padding-left:12px;
+}
+
+/* Personal Details */
+
+.details{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.details div{
+    background:#eff6ff;
+    padding:15px;
+    border-radius:10px;
+    font-size:17px;
+}
+
+/* Table */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+    padding:15px;
+}
+
+td{
+    text-align:center;
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+tr:nth-child(even){
+    background:#f8fafc;
+}
+
+tr:hover{
+    background:#dbeafe;
+}
+
+/* Hobbies */
+
+.hobby-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.hobby{
+    background:#2563eb;
+    color:white;
+    padding:12px 22px;
+    border-radius:25px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.hobby:hover{
+    background:#1e40af;
+    transform:scale(1.05);
+}
+
+/* Contact */
+
+.contact p{
+    margin:12px 0;
+    font-size:18px;
+}
+
+/* Footer */
+
+footer{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:18px;
+    margin-top:20px;
+}
+
+@media(max-width:768px){
+
+.profile{
+    flex-direction:column;
+    text-align:center;
+}
+
+.details{
+    grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<header>
+
+<div class="profile">
+
+<img src="https://www.shutterstock.com/image-photo/3d-cartoon-avatar-representing-hr-260nw-2603158709.jpg" alt="Profile Picture">
+
+<div class="profile-info">
+
+<h1>Muskan Shah</h1>
+
+<h3>B.Tech CSE (AI & ML)</h3>
+
+<p>
+Passionate Computer Science student with an interest in
+Web Development, Artificial Intelligence, and Software Engineering.
+</p>
+
+</div>
+
+</div>
+
+</header>
+
+<section class="card">
+
+<h2>👤 Personal Information</h2>
+
+<div class="details">
+
+<div><strong>Date of Birth:</strong> 15 dec 2007</div>
+
+<div><strong>Gender:</strong> Female</div>
+
+<div><strong>Nationality:</strong> Indian</div>
+
+<div><strong>Languages:</strong> English, Hindi, Marathi</div>
+
+<div><strong>City:</strong> Nagpur</div>
+
+<div><strong>Career Goal:</strong> ML Engineer</div>
+
+</div>
+
+</section>
+
+<section class="card">
+
+<h2>🎓 Education</h2>
+
+<table>
+
+<tr>
+<th>Qualification</th>
+<th>Institute</th>
+<th>Year</th>
+<th>Score</th>
+</tr>
+
+<tr>
+<td>SSC</td>
+<td>SFS School</td>
+<td>2023</td>
+<td>80%</td>
+</tr>
+
+<tr>
+<td>HSC</td>
+<td>St Josesph's Conevt College</td>
+<td>2025</td>
+<td>85%</td>
+</tr>
+
+<tr>
+<td>B.Tech (CSE AI & ML)</td>
+<td>SB jain, Nagpur</td>
+<td>2025 - 2026</td>
+<td>7.82CGPA</td>
+</tr>
+
+</table>
+
+</section>
+
+<section class="card">
+
+<h2>⭐ Hobbies & Skills</h2>
+
+<div class="hobby-list">
+
+<div class="hobby">💻 Coding</div>
+
+<div class="hobby">🎨 Designing</div>
+
+<div class="hobby">🤖 AI Learning</div>
+
+</div>
+
+</section>
+
+<section class="card contact">
+
+<h2>📞 Contact Information</h2>
+
+<p>📧 muskanshah5524.com</p>
+
+<p>📱 +91 9876543210</p>
+
+<p>📍 Nagpur, Maharashtra</p>
+
+<p>🔗 www.linkedin.com/in/muskanshah</p>
+
+</section>
+
+<footer>
+
+<h3>Professional Student Profile</h3>
+
+<p>© 2026 Muskan Shah | Designed using HTML & Internal CSS</p>
+
+</footer>
+
+</div>
+
+</body>
+</html>
