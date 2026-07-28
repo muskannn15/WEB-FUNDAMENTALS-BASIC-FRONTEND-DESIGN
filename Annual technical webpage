@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Festival Invitation</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-blue-100">
+
+    <div class="border-4 border-blue-700 bg-white p-10 m-10">
+
+        <!-- Heading -->
+        <h1 class="text-5xl font-bold text-blue-700 text-center">
+            TECH FEST 2026
+        </h1>
+
+        <h2 class="text-2xl font-semibold text-red-600 text-center mt-4">
+            Annual Technical Festival
+        </h2>
+
+        <!-- Invitation Text -->
+        <p class="text-lg text-gray-700 mt-8">
+            The College of Engineering warmly invites all students and faculty
+            to participate in the Annual Technical Festival. Enjoy coding
+            competitions, technical workshops, project exhibitions, quizzes,
+            and many exciting events.
+        </p>
+
+        <!-- Event Details -->
+        <div class="border-2 border-gray-500 p-5 mt-8">
+            <p class="text-lg"><strong>Date:</strong> 20 September 2026</p>
+            <p class="text-lg mt-2"><strong>Time:</strong> 10:00 AM</p>
+            <p class="text-lg mt-2"><strong>Venue:</strong> College Auditorium</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-8">
+            <button class="bg-blue-700 text-white px-6 py-2">
+                Register
+            </button>
+
+            <button class="border-2 border-blue-700 text-blue-700 px-6 py-2 ml-4">
+                Learn More
+            </button>
+        </div>
+
+    </div>
+
+</body>
+</html>
