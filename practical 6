@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Grade Calculator</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 flex items-center justify-center p-5">
+
+    <div class="w-full max-w-2xl bg-white rounded-3xl shadow-2xl p-8">
+
+        <!-- Heading -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-blue-700">
+                🎓 Student Grade Calculator
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                Enter marks to calculate total, percentage and grade
+            </p>
+        </div>
+
+        <!-- Marks Form -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <!-- Subject 1 -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">
+                    Subject 1
+                </label>
+
+                <input
+                    type="number"
+                    id="sub1"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Subject 2 -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">
+                    Subject 2
+                </label>
+
+                <input
+                    type="number"
+                    id="sub2"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Subject 3 -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">
+                    Subject 3
+                </label>
+
+                <input
+                    type="number"
+                    id="sub3"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Subject 4 -->
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2">
+                    Subject 4
+                </label>
+
+                <input
+                    type="number"
+                    id="sub4"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Subject 5 -->
+            <div class="md:col-span-2">
+                <label class="block text-gray-700 font-semibold mb-2">
+                    Subject 5
+                </label>
+
+                <input
+                    type="number"
+                    id="sub5"
+                    min="0"
+                    max="100"
+                    placeholder="Enter marks"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl
+                           focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+        </div>
+
+        <!-- Button -->
+        <button
+            onclick="calculateGrade()"
+            class="w-full mt-7 bg-blue-600 hover:bg-blue-700 text-white
+                   font-bold py-3 rounded-xl transition duration-300
+                   shadow-lg hover:shadow-xl">
+            Calculate Result
+        </button>
+
+        <!-- Result -->
+        <div id="result"
+             class="hidden mt-7 bg-gray-50 rounded-2xl p-6 border border-gray-200">
+
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-5">
+                📊 Result
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+
+                <div class="bg-blue-100 rounded-xl p-4">
+                    <p class="text-gray-600 font-semibold">Total</p>
+                    <p id="total" class="text-2xl font-bold text-blue-700">
+                        0
+                    </p>
+                </div>
+
+                <div class="bg-purple-100 rounded-xl p-4">
+                    <p class="text-gray-600 font-semibold">Percentage</p>
+                    <p id="percentage" class="text-2xl font-bold text-purple-700">
+                        0%
+                    </p>
+                </div>
+
+                <div class="bg-green-100 rounded-xl p-4">
+                    <p class="text-gray-600 font-semibold">Grade</p>
+                    <p id="grade" class="text-2xl font-bold text-green-700">
+                        -
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script>
+
+        function calculateGrade() {
+
+            // Get marks
+            let m1 = Number(document.getElementById("sub1").value);
+            let m2 = Number(document.getElementById("sub2").value);
+            let m3 = Number(document.getElementById("sub3").value);
+            let m4 = Number(document.getElementById("sub4").value);
+            let m5 = Number(document.getElementById("sub5").value);
+
+            // Check marks
+            if (
+                m1 < 0 || m1 > 100 ||
+                m2 < 0 || m2 > 100 ||
+                m3 < 0 || m3 > 100 ||
+                m4 < 0 || m4 > 100 ||
+                m5 < 0 || m5 > 100
+            ) {
+                alert("Please enter marks between 0 and 100.");
+                return;
+            }
+
+            // Calculate total
+            let total = m1 + m2 + m3 + m4 + m5;
+
+            // Calculate percentage
+            let percentage = total / 5;
+
+            // Calculate grade
+            let grade;
+
+            if (percentage >= 90) {
+                grade = "A+";
+            }
+            else if (percentage >= 80) {
+                grade = "A";
+            }
+            else if (percentage >= 70) {
+                grade = "B";
+            }
+            else if (percentage >= 60) {
+                grade = "C";
+            }
+            else if (percentage >= 50) {
+                grade = "D";
+            }
+            else {
+                grade = "F";
+            }
+
+            // Display result
+            document.getElementById("total").innerText = total;
+            document.getElementById("percentage").innerText =
+                percentage.toFixed(2) + "%";
+            document.getElementById("grade").innerText = grade;
+
+            document.getElementById("result").classList.remove("hidden");
+        }
+
+    </script>
+
+</body>
+</html>
