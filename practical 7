@@ -1,1 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>College FAQ Portal</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100">
+
+    <!-- Header -->
+    <header class="bg-blue-700 text-white text-center py-8 shadow-lg">
+        <h1 class="text-3xl md:text-4xl font-bold">
+            🎓 College Help Portal
+        </h1>
+
+        <p class="mt-2 text-blue-100">
+            Frequently Asked Questions
+        </p>
+    </header>
+
+
+    <!-- FAQ Section -->
+    <main class="max-w-3xl mx-auto px-5 py-10">
+
+        <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8">
+
+            <h2 class="text-2xl font-bold text-gray-800 text-center mb-2">
+                Frequently Asked Questions
+            </h2>
+
+            <p class="text-center text-gray-500 mb-8">
+                Click on a question to view its answer.
+            </p>
+
+
+            <!-- FAQ 1 -->
+            <div class="faq-item border border-gray-200 rounded-xl mb-4 overflow-hidden">
+
+                <button class="faq-question w-full flex justify-between items-center
+                               text-left px-5 py-4 bg-gray-50 hover:bg-blue-50
+                               font-semibold text-gray-800 transition">
+
+                    <span>What are the college admission requirements?</span>
+
+                    <span class="icon text-xl text-blue-600">+</span>
+
+                </button>
+
+                <div class="faq-answer hidden px-5 py-4 bg-white text-gray-600">
+                    Students must fulfill the eligibility criteria and submit
+                    the required documents during the admission process.
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 2 -->
+            <div class="faq-item border border-gray-200 rounded-xl mb-4 overflow-hidden">
+
+                <button class="faq-question w-full flex justify-between items-center
+                               text-left px-5 py-4 bg-gray-50 hover:bg-blue-50
+                               font-semibold text-gray-800 transition">
+
+                    <span>How can I check my examination timetable?</span>
+
+                    <span class="icon text-xl text-blue-600">+</span>
+
+                </button>
+
+                <div class="faq-answer hidden px-5 py-4 bg-white text-gray-600">
+                    The examination timetable can be checked on the official
+                    college website or notice board.
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 3 -->
+            <div class="faq-item border border-gray-200 rounded-xl mb-4 overflow-hidden">
+
+                <button class="faq-question w-full flex justify-between items-center
+                               text-left px-5 py-4 bg-gray-50 hover:bg-blue-50
+                               font-semibold text-gray-800 transition">
+
+                    <span>Where can I get study materials?</span>
+
+                    <span class="icon text-xl text-blue-600">+</span>
+
+                </button>
+
+                <div class="faq-answer hidden px-5 py-4 bg-white text-gray-600">
+                    Study materials can be obtained from the department,
+                    faculty members, or the college learning portal.
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 4 -->
+            <div class="faq-item border border-gray-200 rounded-xl mb-4 overflow-hidden">
+
+                <button class="faq-question w-full flex justify-between items-center
+                               text-left px-5 py-4 bg-gray-50 hover:bg-blue-50
+                               font-semibold text-gray-800 transition">
+
+                    <span>How can I contact the department?</span>
+
+                    <span class="icon text-xl text-blue-600">+</span>
+
+                </button>
+
+                <div class="faq-answer hidden px-5 py-4 bg-white text-gray-600">
+                    You can contact the department office through the official
+                    email address or by visiting the department office.
+                </div>
+
+            </div>
+
+
+            <!-- FAQ 5 -->
+            <div class="faq-item border border-gray-200 rounded-xl overflow-hidden">
+
+                <button class="faq-question w-full flex justify-between items-center
+                               text-left px-5 py-4 bg-gray-50 hover:bg-blue-50
+                               font-semibold text-gray-800 transition">
+
+                    <span>How can I apply for a scholarship?</span>
+
+                    <span class="icon text-xl text-blue-600">+</span>
+
+                </button>
+
+                <div class="faq-answer hidden px-5 py-4 bg-white text-gray-600">
+                    Students can apply for eligible scholarships by submitting
+                    the required documents before the given deadline.
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script>
+
+        // Select all FAQ questions
+        const questions = document.querySelectorAll(".faq-question");
+
+        // Add event listener to each question
+        questions.forEach(function(question) {
+
+            question.addEventListener("click", function() {
+
+                // Find the answer of the clicked question
+                const answer = question.nextElementSibling;
+
+                // Find the + / - icon
+                const icon = question.querySelector(".icon");
+
+                // Show or hide answer
+                answer.classList.toggle("hidden");
+
+                // Change icon
+                if (answer.classList.contains("hidden")) {
+                    icon.textContent = "+";
+                } else {
+                    icon.textContent = "−";
+                }
+
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>
