@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Quiz Arena</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Hide page radio controls */
+    input[name="page"] {
+      display: none;
+    }
+
+    /* Hide all pages initially */
+    .page {
+      display: none;
+    }
+
+    /* =========================
+       PAGE NAVIGATION
+    ========================== */
+
+    #home:checked ~ .app .home-page {
+      display: flex;
+    }
+
+    #html1:checked ~ .app .html1-page {
+      display: flex;
+    }
+
+    #html2:checked ~ .app .html2-page {
+      display: flex;
+    }
+
+    #html3:checked ~ .app .html3-page {
+      display: flex;
+    }
+
+    #html4:checked ~ .app .html4-page {
+      display: flex;
+    }
+
+    #html5:checked ~ .app .html5-page {
+      display: flex;
+    }
+
+    #html-score:checked ~ .app .html-score-page {
+      display: flex;
+    }
+
+    #tailwind1:checked ~ .app .tailwind1-page {
+      display: flex;
+    }
+
+    #tailwind2:checked ~ .app .tailwind2-page {
+      display: flex;
+    }
+
+    #tailwind3:checked ~ .app .tailwind3-page {
+      display: flex;
+    }
+
+    #tailwind4:checked ~ .app .tailwind4-page {
+      display: flex;
+    }
+
+    #tailwind5:checked ~ .app .tailwind5-page {
+      display: flex;
+    }
+
+    #tailwind-score:checked ~ .app .tailwind-score-page {
+      display: flex;
+    }
+
+    /* =========================
+       TIMER
+    ========================== */
+
+    @keyframes timer {
+      from {
+        width: 100%;
+      }
+
+      to {
+        width: 0%;
+      }
+    }
+
+    .timer-bar {
+      width: 100%;
+    }
+
+    #html1:checked ~ .app .html1-page .timer-bar,
+    #html2:checked ~ .app .html2-page .timer-bar,
+    #html3:checked ~ .app .html3-page .timer-bar,
+    #html4:checked ~ .app .html4-page .timer-bar,
+    #html5:checked ~ .app .html5-page .timer-bar,
+    #tailwind1:checked ~ .app .tailwind1-page .timer-bar,
+    #tailwind2:checked ~ .app .tailwind2-page .timer-bar,
+    #tailwind3:checked ~ .app .tailwind3-page .timer-bar,
+    #tailwind4:checked ~ .app .tailwind4-page .timer-bar,
+    #tailwind5:checked ~ .app .tailwind5-page .timer-bar {
+      animation: timer 30s linear forwards;
+    }
+
+    /* =========================
+       FEEDBACK
+    ========================== */
+
+    .feedback {
+      display: none;
+    }
+
+    .question:has(input.correct:checked) .correct-feedback {
+      display: block;
+    }
+
+    .question:has(input.wrong:checked) .wrong-feedback {
+      display: block;
+    }
+
+    /* =========================
+       NEXT BUTTON
+    ========================== */
+
+    .next-btn {
+      display: none;
+    }
+
+    .question:has(input[type="radio"]:checked) .next-btn {
+      display: inline-flex;
+    }
+
+    /* =========================
+       OPTION EFFECTS
+    ========================== */
+
+    .option {
+      transition: all 0.25s ease;
+    }
+
+    .option:hover {
+      transform: translateY(-3px);
+    }
+
+    .option:has(input:checked) {
+      border-color: rgb(99 102 241);
+      background: rgba(99, 102, 241, 0.15);
+    }
+
+    .option:has(input.correct:checked) {
+      border-color: rgb(16 185 129);
+      background: rgba(16, 185, 129, 0.15);
+    }
+
+    .option:has(input.wrong:checked) {
+      border-color: rgb(244 63 94);
+      background: rgba(244, 63, 94, 0.15);
+    }
+
+    /* Glass effect */
+    .glass {
+      background: rgba(30, 41, 59, 0.72);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+
+    /* Background */
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(79, 70, 229, 0.25), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.15), transparent 35%),
+        #020617;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen text-white">
+
+  <!-- ==========================================
+       PAGE STATE CONTROLS
+  =========================================== -->
+
+  <input type="radio" name="page" id="home" checked>
+
+  <!-- HTML -->
+  <input type="radio" name="page" id="html1">
+  <input type="radio" name="page" id="html2">
+  <input type="radio" name="page" id="html3">
+  <input type="radio" name="page" id="html4">
+  <input type="radio" name="page" id="html5">
+  <input type="radio" name="page" id="html-score">
+
+  <!-- Tailwind -->
+  <input type="radio" name="page" id="tailwind1">
+  <input type="radio" name="page" id="tailwind2">
+  <input type="radio" name="page" id="tailwind3">
+  <input type="radio" name="page" id="tailwind4">
+  <input type="radio" name="page" id="tailwind5">
+  <input type="radio" name="page" id="tailwind-score">
+
+
+  <!-- ==========================================
+       MAIN APPLICATION
+  =========================================== -->
+
+  <main class="app min-h-screen flex items-center justify-center p-5">
+
+    <!-- ==========================================
+         HOME / QUIZ SELECTION
+    =========================================== -->
+
+    <section class="page home-page w-full max-w-5xl flex-col">
+
+      <div class="text-center mb-10">
+
+        <div class="inline-flex items-center gap-2 px-4 py-2 mb-5
+                    rounded-full bg-indigo-500/10 border border-indigo-400/20
+                    text-indigo-300 text-sm font-semibold">
+          ⚡ Interactive Learning Challenge
+        </div>
+
+        <h1 class="text-5xl md:text-6xl font-black tracking-tight">
+          Tech
+          <span class="text-indigo-400">Quiz</span>
+          Arena
+        </h1>
+
+        <p class="text-slate-400 mt-4 text-lg">
+          Choose your technology and test your knowledge.
+        </p>
+
+      </div>
+
+
+      <!-- Quiz Cards -->
+
+      <div class="grid md:grid-cols-2 gap-7">
+
+        <!-- HTML QUIZ -->
+
+        <div class="glass rounded-3xl p-8 shadow-2xl
+                    hover:-translate-y-2 transition duration-300">
+
+          <div class="w-16 h-16 rounded-2xl
+                      bg-orange-500/10 border border-orange-400/20
+                      flex items-center justify-center text-3xl mb-6">
+            🌐
+          </div>
+
+          <p class="text-orange-400 font-bold text-sm uppercase tracking-wider">
+            Quiz 01
+          </p>
+
+          <h2 class="text-3xl font-bold mt-2">
+            HTML Quiz
+          </h2>
+
+          <p class="text-slate-400 mt-3 leading-relaxed">
+            Test your knowledge of HTML tags, elements, attributes
+            and basic web page structure.
+          </p>
+
+          <div class="grid grid-cols-2 gap-3 mt-7">
+
+            <div class="bg-slate-800/70 rounded-xl p-4">
+              <p class="text-2xl font-bold">05</p>
+              <p class="text-xs text-slate-400 mt-1">
+                Questions
+              </p>
+            </div>
+
+            <div class="bg-slate-800/70 rounded-xl p-4">
+              <p class="text-2xl font-bold">30s</p>
+              <p class="text-xs text-slate-400 mt-1">
+                Per Question
+              </p>
+            </div>
+
+          </div>
+
+          <label for="html1"
+                 class="mt-7 w-full cursor-pointer
+                        bg-orange-500 hover:bg-orange-400
+                        text-white font-bold py-4 rounded-2xl
+                        flex items-center justify-center gap-2
+                        transition shadow-lg">
+            Start HTML Quiz
+            <span>→</span>
+          </label>
+
+        </div>
+
+
+        <!-- TAILWIND QUIZ -->
+
+        <div class="glass rounded-3xl p-8 shadow-2xl
+                    hover:-translate-y-2 transition duration-300">
+
+          <div class="w-16 h-16 rounded-2xl
+                      bg-cyan-500/10 border border-cyan-400/20
+                      flex items-center justify-center text-3xl mb-6">
+            🎨
+          </div>
+
+          <p class="text-cyan-400 font-bold text-sm uppercase tracking-wider">
+            Quiz 02
+          </p>
+
+          <h2 class="text-3xl font-bold mt-2">
+            Tailwind CSS Quiz
+          </h2>
+
+          <p class="text-slate-400 mt-3 leading-relaxed">
+            Test your knowledge of utility classes, colors,
+            spacing, typography and responsive design.
+          </p>
+
+          <div class="grid grid-cols-2 gap-3 mt-7">
+
+            <div class="bg-slate-800/70 rounded-xl p-4">
+              <p class="text-2xl font-bold">05</p>
+              <p class="text-xs text-slate-400 mt-1">
+                Questions
+              </p>
+            </div>
+
+            <div class="bg-slate-800/70 rounded-xl p-4">
+              <p class="text-2xl font-bold">30s</p>
+              <p class="text-xs text-slate-400 mt-1">
+                Per Question
+              </p>
+            </div>
+
+          </div>
+
+          <label for="tailwind1"
+                 class="mt-7 w-full cursor-pointer
+                        bg-cyan-500 hover:bg-cyan-400
+                        text-slate-950 font-bold py-4 rounded-2xl
+                        flex items-center justify-center gap-2
+                        transition shadow-lg">
+            Start Tailwind Quiz
+            <span>→</span>
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <!-- Instructions -->
+
+      <div class="glass rounded-3xl p-7 mt-8">
+
+        <h3 class="text-xl font-bold mb-5">
+          📌 Quiz Instructions
+        </h3>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <div class="bg-slate-800/60 rounded-2xl p-4">
+            <span class="text-2xl">📝</span>
+            <p class="font-semibold mt-2">5 Questions</p>
+            <p class="text-sm text-slate-400">
+              Each quiz has 5 questions.
+            </p>
+          </div>
+
+          <div class="bg-slate-800/60 rounded-2xl p-4">
+            <span class="text-2xl">⏱️</span>
+            <p class="font-semibold mt-2">30 Seconds</p>
+            <p class="text-sm text-slate-400">
+              You have 30 seconds per question.
+            </p>
+          </div>
+
+          <div class="bg-slate-800/60 rounded-2xl p-4">
+            <span class="text-2xl">🏆</span>
+            <p class="font-semibold mt-2">1 Mark</p>
+            <p class="text-sm text-slate-400">
+              Each question carries 1 mark.
+            </p>
+          </div>
+
+          <div class="bg-slate-800/60 rounded-2xl p-4">
+            <span class="text-2xl">🎯</span>
+            <p class="font-semibold mt-2">Choose Wisely</p>
+            <p class="text-sm text-slate-400">
+              Select one correct answer.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <p class="text-center text-slate-500 text-sm mt-7">
+        Pure HTML + Tailwind CSS • No JavaScript Quiz Logic
+      </p>
+
+    </section>
+
+
+    <!-- ==========================================
+             HTML QUESTION 1
+    =========================================== -->
+
+    <section class="page html1-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-orange-400 font-bold">
+              HTML QUIZ
+            </span>
+
+            <p class="text-slate-400 text-sm mt-1">
+              Question 1 of 5
+            </p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-orange-500"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold leading-relaxed">
+          Which HTML tag is used to create a hyperlink?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq1" class="hidden correct">
+            <span>&lt;a&gt;</span>
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq1" class="hidden wrong">
+            <span>&lt;link&gt;</span>
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq1" class="hidden wrong">
+            <span>&lt;href&gt;</span>
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq1" class="hidden wrong">
+            <span>&lt;url&gt;</span>
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! The &lt;a&gt; tag creates hyperlinks.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct answer is &lt;a&gt;.
+        </div>
+
+        <label for="html2"
+               class="next-btn mt-7 bg-indigo-500 hover:bg-indigo-400
+                      px-6 py-4 rounded-2xl font-bold cursor-pointer
+                      items-center justify-center">
+          Next Question →
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             HTML QUESTION 2
+    =========================================== -->
+
+    <section class="page html2-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-orange-400 font-bold">HTML QUIZ</span>
+            <p class="text-slate-400 text-sm mt-1">Question 2 of 5</p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-orange-500"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which HTML heading tag represents the largest heading?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq2" class="hidden wrong">
+            &lt;h6&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq2" class="hidden wrong">
+            &lt;h3&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq2" class="hidden correct">
+            &lt;h1&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq2" class="hidden wrong">
+            &lt;head&gt;
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! &lt;h1&gt; is the largest heading.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct answer is &lt;h1&gt;.
+        </div>
+
+        <label for="html3"
+               class="next-btn mt-7 bg-indigo-500 hover:bg-indigo-400
+                      px-6 py-4 rounded-2xl font-bold cursor-pointer
+                      items-center justify-center">
+          Next Question →
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             HTML QUESTION 3
+    =========================================== -->
+
+    <section class="page html3-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-orange-400 font-bold">HTML QUIZ</span>
+            <p class="text-slate-400 text-sm mt-1">Question 3 of 5</p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-orange-500"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which HTML tag is used to insert an image?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq3" class="hidden wrong">
+            &lt;image&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq3" class="hidden correct">
+            &lt;img&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq3" class="hidden wrong">
+            &lt;pic&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq3" class="hidden wrong">
+            &lt;src&gt;
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! &lt;img&gt; is used to display images.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct answer is &lt;img&gt;.
+        </div>
+
+        <label for="html4"
+               class="next-btn mt-7 bg-indigo-500 hover:bg-indigo-400
+                      px-6 py-4 rounded-2xl font-bold cursor-pointer
+                      items-center justify-center">
+          Next Question →
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             HTML QUESTION 4
+    =========================================== -->
+
+    <section class="page html4-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-orange-400 font-bold">HTML QUIZ</span>
+            <p class="text-slate-400 text-sm mt-1">Question 4 of 5</p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-orange-500"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which HTML element creates an unordered list?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq4" class="hidden wrong">
+            &lt;ol&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq4" class="hidden correct">
+            &lt;ul&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq4" class="hidden wrong">
+            &lt;li&gt;
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq4" class="hidden wrong">
+            &lt;list&gt;
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! &lt;ul&gt; creates an unordered list.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct answer is &lt;ul&gt;.
+        </div>
+
+        <label for="html5"
+               class="next-btn mt-7 bg-indigo-500 hover:bg-indigo-400
+                      px-6 py-4 rounded-2xl font-bold cursor-pointer
+                      items-center justify-center">
+          Next Question →
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             HTML QUESTION 5
+    =========================================== -->
+
+    <section class="page html5-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-orange-400 font-bold">HTML QUIZ</span>
+            <p class="text-slate-400 text-sm mt-1">Question 5 of 5</p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-orange-500"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which attribute specifies the path of an image?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq5" class="hidden wrong">
+            alt
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq5" class="hidden wrong">
+            href
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq5" class="hidden correct">
+            src
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="htmlq5" class="hidden wrong">
+            path
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! The src attribute specifies the image source.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct answer is src.
+        </div>
+
+        <label for="html-score"
+               class="next-btn mt-7 bg-emerald-500 hover:bg-emerald-400
+                      text-slate-950 px-6 py-4 rounded-2xl font-bold
+                      cursor-pointer items-center justify-center">
+          View HTML Score 🏆
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             HTML SCORE
+    =========================================== -->
+
+    <section class="page html-score-page w-full max-w-2xl flex-col">
+
+      <div class="glass rounded-3xl p-10 text-center shadow-2xl">
+
+        <div class="text-6xl mb-5">
+          🏆
+        </div>
+
+        <p class="text-orange-400 font-bold uppercase tracking-wider">
+          HTML Quiz Completed
+        </p>
+
+        <h2 class="text-4xl font-black mt-3">
+          Your HTML Score
+        </h2>
+
+        <div class="text-7xl font-black text-orange-400 mt-8">
+          5<span class="text-3xl text-slate-500"> / 5</span>
+        </div>
+
+        <p class="text-slate-400 mt-3">
+          Excellent! You completed the HTML quiz.
+        </p>
+
+        <div class="grid grid-cols-2 gap-4 mt-8">
+
+          <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-5">
+            <p class="text-2xl font-bold text-emerald-400">5</p>
+            <p class="text-sm text-slate-400">Correct</p>
+          </div>
+
+          <div class="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-5">
+            <p class="text-2xl font-bold text-rose-400">0</p>
+            <p class="text-sm text-slate-400">Wrong</p>
+          </div>
+
+        </div>
+
+        <label for="home"
+               class="mt-8 cursor-pointer inline-flex
+                      bg-indigo-500 hover:bg-indigo-400
+                      px-7 py-4 rounded-2xl font-bold transition">
+          ← Choose Another Quiz
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             TAILWIND QUESTION 1
+    =========================================== -->
+
+    <section class="page tailwind1-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-cyan-400 font-bold">
+              TAILWIND CSS QUIZ
+            </span>
+
+            <p class="text-slate-400 text-sm mt-1">
+              Question 1 of 5
+            </p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-cyan-400"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which Tailwind CSS class makes text bold?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq1" class="hidden wrong">
+            font-large
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq1" class="hidden correct">
+            font-bold
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq1" class="hidden wrong">
+            text-bold
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq1" class="hidden wrong">
+            bold-text
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! font-bold makes the text bold.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct class is font-bold.
+        </div>
+
+        <label for="tailwind2"
+               class="next-btn mt-7 bg-indigo-500 hover:bg-indigo-400
+                      px-6 py-4 rounded-2xl font-bold cursor-pointer
+                      items-center justify-center">
+          Next Question →
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             TAILWIND QUESTION 2
+    =========================================== -->
+
+    <section class="page tailwind2-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-cyan-400 font-bold">
+              TAILWIND CSS QUIZ
+            </span>
+
+            <p class="text-slate-400 text-sm mt-1">
+              Question 2 of 5
+            </p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-cyan-400"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which Tailwind class centers text?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq2" class="hidden wrong">
+            center-text
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq2" class="hidden correct">
+            text-center
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq2" class="hidden wrong">
+            align-center
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq2" class="hidden wrong">
+            center
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! text-center centers text horizontally.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct class is text-center.
+        </div>
+
+        <label for="tailwind3"
+               class="next-btn mt-7 bg-indigo-500 hover:bg-indigo-400
+                      px-6 py-4 rounded-2xl font-bold cursor-pointer
+                      items-center justify-center">
+          Next Question →
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             TAILWIND QUESTION 3
+    =========================================== -->
+
+    <section class="page tailwind3-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-cyan-400 font-bold">
+              TAILWIND CSS QUIZ
+            </span>
+
+            <p class="text-slate-400 text-sm mt-1">
+              Question 3 of 5
+            </p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-cyan-400"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which Tailwind class adds 1rem padding on all sides?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq3" class="hidden wrong">
+            p-2
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq3" class="hidden wrong">
+            p-3
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq3" class="hidden correct">
+            p-4
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq3" class="hidden wrong">
+            p-5
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! p-4 represents 1rem padding.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct class is p-4.
+        </div>
+
+        <label for="tailwind4"
+               class="next-btn mt-7 bg-indigo-500 hover:bg-indigo-400
+                      px-6 py-4 rounded-2xl font-bold cursor-pointer
+                      items-center justify-center">
+          Next Question →
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             TAILWIND QUESTION 4
+    =========================================== -->
+
+    <section class="page tailwind4-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-cyan-400 font-bold">
+              TAILWIND CSS QUIZ
+            </span>
+
+            <p class="text-slate-400 text-sm mt-1">
+              Question 4 of 5
+            </p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-cyan-400"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which Tailwind class creates a blue background?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq4" class="hidden wrong">
+            text-blue-500
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq4" class="hidden correct">
+            bg-blue-500
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq4" class="hidden wrong">
+            background-blue
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq4" class="hidden wrong">
+            blue-bg
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! bg-blue-500 sets a blue background color.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct class is bg-blue-500.
+        </div>
+
+        <label for="tailwind5"
+               class="next-btn mt-7 bg-indigo-500 hover:bg-indigo-400
+                      px-6 py-4 rounded-2xl font-bold cursor-pointer
+                      items-center justify-center">
+          Next Question →
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             TAILWIND QUESTION 5
+    =========================================== -->
+
+    <section class="page tailwind5-page question w-full max-w-3xl flex-col">
+
+      <div class="glass rounded-3xl p-7 md:p-10 shadow-2xl">
+
+        <div class="flex justify-between items-center mb-6">
+
+          <div>
+            <span class="text-cyan-400 font-bold">
+              TAILWIND CSS QUIZ
+            </span>
+
+            <p class="text-slate-400 text-sm mt-1">
+              Question 5 of 5
+            </p>
+          </div>
+
+          <div class="px-4 py-2 rounded-full bg-slate-800 text-sm">
+            ⏱️ 30 sec
+          </div>
+
+        </div>
+
+        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-8">
+          <div class="timer-bar h-full bg-cyan-400"></div>
+        </div>
+
+        <h2 class="text-2xl md:text-3xl font-bold">
+          Which Tailwind class gives an element rounded corners?
+        </h2>
+
+        <div class="space-y-4 mt-8">
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq5" class="hidden wrong">
+            corner-lg
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq5" class="hidden wrong">
+            border-round
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq5" class="hidden correct">
+            rounded-lg
+          </label>
+
+          <label class="option block border border-slate-700 rounded-2xl p-5 cursor-pointer">
+            <input type="radio" name="twq5" class="hidden wrong">
+            radius-lg
+          </label>
+
+        </div>
+
+        <div class="feedback correct-feedback mt-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">
+          ✅ Correct! rounded-lg creates rounded corners.
+        </div>
+
+        <div class="feedback wrong-feedback mt-6 p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300">
+          ❌ Incorrect. The correct class is rounded-lg.
+        </div>
+
+        <label for="tailwind-score"
+               class="next-btn mt-7 bg-emerald-500 hover:bg-emerald-400
+                      text-slate-950 px-6 py-4 rounded-2xl font-bold
+                      cursor-pointer items-center justify-center">
+          View Tailwind Score 🏆
+        </label>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+             TAILWIND SCORE
+    =========================================== -->
+
+    <section class="page tailwind-score-page w-full max-w-2xl flex-col">
+
+      <div class="glass rounded-3xl p-10 text-center shadow-2xl">
+
+        <div class="text-6xl mb-5">
+          🏆
+        </div>
+
+        <p class="text-cyan-400 font-bold uppercase tracking-wider">
+          Tailwind CSS Quiz Completed
+        </p>
+
+        <h2 class="text-4xl font-black mt-3">
+          Your Tailwind Score
+        </h2>
+
+        <div class="text-7xl font-black text-cyan-400 mt-8">
+          5<span class="text-3xl text-slate-500"> / 5</span>
+        </div>
+
+        <p class="text-slate-400 mt-3">
+          Excellent! You completed the Tailwind CSS quiz.
+        </p>
+
+        <div class="grid grid-cols-2 gap-4 mt-8">
+
+          <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-5">
+            <p class="text-2xl font-bold text-emerald-400">5</p>
+            <p class="text-sm text-slate-400">Correct</p>
+          </div>
+
+          <div class="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-5">
+            <p class="text-2xl font-bold text-rose-400">0</p>
+            <p class="text-sm text-slate-400">Wrong</p>
+          </div>
+
+        </div>
+
+        <label for="home"
+               class="mt-8 cursor-pointer inline-flex
+                      bg-indigo-500 hover:bg-indigo-400
+                      px-7 py-4 rounded-2xl font-bold transition">
+          ← Choose Another Quiz
+        </label>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</body>
+</html>
