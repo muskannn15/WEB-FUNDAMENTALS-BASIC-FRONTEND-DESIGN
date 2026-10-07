@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-5">
+
+    <div class="bg-white w-full max-w-lg p-8 rounded-xl shadow-lg">
+
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">
+            Student Registration
+        </h1>
+
+        <form id="registrationForm">
+
+            <!-- Name -->
+            <div class="mb-4">
+                <label class="block font-semibold mb-2">Full Name</label>
+                <input type="text" id="name"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your full name">
+                <p id="nameError" class="text-red-500 text-sm mt-1"></p>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label class="block font-semibold mb-2">Email</label>
+                <input type="text" id="email"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your email">
+                <p id="emailError" class="text-red-500 text-sm mt-1"></p>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label class="block font-semibold mb-2">Password</label>
+                <input type="password" id="password"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter password">
+                <p id="passwordError" class="text-red-500 text-sm mt-1"></p>
+            </div>
+
+            <!-- Mobile -->
+            <div class="mb-4">
+                <label class="block font-semibold mb-2">Mobile Number</label>
+                <input type="text" id="mobile"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter 10-digit mobile number">
+                <p id="mobileError" class="text-red-500 text-sm mt-1"></p>
+            </div>
+
+            <!-- Course -->
+            <div class="mb-6">
+                <label class="block font-semibold mb-2">Course</label>
+                <select id="course"
+                    class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Select Course</option>
+                    <option value="CSE">Computer Science</option>
+                    <option value="AIML">AI & ML</option>
+                    <option value="IT">Information Technology</option>
+                    <option value="ECE">Electronics</option>
+                </select>
+                <p id="courseError" class="text-red-500 text-sm mt-1"></p>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+                Register
+            </button>
+
+        </form>
+
+        <p id="successMessage"
+            class="text-green-600 text-center font-semibold mt-5"></p>
+
+    </div>
+
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+
+            // Stop form from submitting automatically
+            event.preventDefault();
+
+            // Get values
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value;
+            let mobile = document.getElementById("mobile").value.trim();
+            let course = document.getElementById("course").value;
+
+            // Error messages
+            document.getElementById("nameError").textContent = "";
+            document.getElementById("emailError").textContent = "";
+            document.getElementById("passwordError").textContent = "";
+            document.getElementById("mobileError").textContent = "";
+            document.getElementById("courseError").textContent = "";
+            document.getElementById("successMessage").textContent = "";
+
+            let valid = true;
+
+            // Name validation
+            if (name === "") {
+                document.getElementById("nameError").textContent =
+                    "Name is required";
+                valid = false;
+            }
+
+            // Email validation
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            if (email === "") {
+                document.getElementById("emailError").textContent =
+                    "Email is required";
+                valid = false;
+            } 
+            else if (!emailPattern.test(email)) {
+                document.getElementById("emailError").textContent =
+                    "Enter a valid email address";
+                valid = false;
+            }
+
+            // Password validation
+            if (password === "") {
+                document.getElementById("passwordError").textContent =
+                    "Password is required";
+                valid = false;
+            } 
+            else if (password.length < 6) {
+                document.getElementById("passwordError").textContent =
+                    "Password must be at least 6 characters";
+                valid = false;
+            }
+
+            // Mobile validation
+            let mobilePattern = /^[0-9]{10}$/;
+
+            if (mobile === "") {
+                document.getElementById("mobileError").textContent =
+                    "Mobile number is required";
+                valid = false;
+            } 
+            else if (!mobilePattern.test(mobile)) {
+                document.getElementById("mobileError").textContent =
+                    "Enter a valid 10-digit mobile number";
+                valid = false;
+            }
+
+            // Course validation
+            if (course === "") {
+                document.getElementById("courseError").textContent =
+                    "Please select a course";
+                valid = false;
+            }
+
+            // Final result
+            if (valid) {
+                document.getElementById("successMessage").textContent =
+                    "Registration successful!";
+            }
+        });
+    </script>
+
+</body>
+</html>
