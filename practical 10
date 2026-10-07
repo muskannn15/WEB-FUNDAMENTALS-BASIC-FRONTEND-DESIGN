@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Task Manager</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white text-center py-6 shadow-md">
+        <h1 class="text-3xl font-bold">Student Task Manager</h1>
+        <p class="mt-2 text-indigo-100">
+            Organize your academic and personal tasks
+        </p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-3xl mx-auto px-4 py-8">
+
+        <!-- Add Task Section -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                Add New Task
+            </h2>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Enter your task..."
+                    class="flex-1 border border-gray-300 rounded-lg px-4 py-3
+                           focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+
+                <button
+                    onclick="addTask()"
+                    class="bg-indigo-600 text-white px-6 py-3 rounded-lg
+                           hover:bg-indigo-700 transition font-semibold"
+                >
+                    Add Task
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Task List -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mt-6">
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold text-gray-800">
+                    My Tasks
+                </h2>
+
+                <span
+                    id="taskCount"
+                    class="bg-indigo-100 text-indigo-700 px-3 py-1
+                           rounded-full text-sm font-semibold"
+                >
+                    0 Tasks
+                </span>
+            </div>
+
+            <ul id="taskList" class="space-y-3">
+                <!-- Tasks will appear here -->
+            </ul>
+
+            <p
+                id="emptyMessage"
+                class="text-center text-gray-500 py-6"
+            >
+                No tasks added yet.
+            </p>
+
+        </div>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+
+        function addTask() {
+
+            // Get input value
+            const taskInput = document.getElementById("taskInput");
+            const taskText = taskInput.value.trim();
+
+            // Check empty input
+            if (taskText === "") {
+                alert("Please enter a task!");
+                return;
+            }
+
+            // Create list item
+            const li = document.createElement("li");
+
+            li.className =
+                "flex items-center justify-between bg-gray-50 " +
+                "border border-gray-200 rounded-lg p-4";
+
+            // Task content
+            const taskDiv = document.createElement("div");
+
+            taskDiv.className =
+                "flex items-center gap-3 flex-1";
+
+            // Checkbox
+            const checkbox = document.createElement("input");
+
+            checkbox.type = "checkbox";
+
+            checkbox.className =
+                "w-5 h-5 accent-indigo-600 cursor-pointer";
+
+            // Task text
+            const span = document.createElement("span");
+
+            span.textContent = taskText;
+
+            span.className =
+                "text-gray-700 font-medium";
+
+            // Mark task completed
+            checkbox.addEventListener("change", function () {
+
+                if (checkbox.checked) {
+                    span.classList.add(
+                        "line-through",
+                        "text-gray-400"
+                    );
+                } else {
+                    span.classList.remove(
+                        "line-through",
+                        "text-gray-400"
+                    );
+                }
+
+            });
+
+            // Add checkbox and text
+            taskDiv.appendChild(checkbox);
+            taskDiv.appendChild(span);
+
+            // Delete button
+            const deleteButton = document.createElement("button");
+
+            deleteButton.textContent = "Delete";
+
+            deleteButton.className =
+                "bg-red-500 text-white px-3 py-2 rounded-lg " +
+                "hover:bg-red-600 transition text-sm";
+
+            // Delete task
+            deleteButton.addEventListener("click", function () {
+                li.remove();
+                updateTaskCount();
+            });
+
+            // Add everything to list item
+            li.appendChild(taskDiv);
+            li.appendChild(deleteButton);
+
+            // Add task to list
+            document.getElementById("taskList").appendChild(li);
+
+            // Clear input
+            taskInput.value = "";
+
+            // Update count
+            updateTaskCount();
+        }
+
+
+        // Update task count
+        function updateTaskCount() {
+
+            const tasks =
+                document.getElementById("taskList").children.length;
+
+            document.getElementById("taskCount").textContent =
+                tasks + (tasks === 1 ? " Task" : " Tasks");
+
+            // Show or hide empty message
+            const emptyMessage =
+                document.getElementById("emptyMessage");
+
+            if (tasks === 0) {
+                emptyMessage.style.display = "block";
+            } else {
+                emptyMessage.style.display = "none";
+            }
+        }
+
+
+        // Add task when Enter key is pressed
+        document.getElementById("taskInput")
+            .addEventListener("keypress", function(event) {
+
+                if (event.key === "Enter") {
+                    addTask();
+                }
+
+            });
+
+    </script>
+
+</body>
+</html>
